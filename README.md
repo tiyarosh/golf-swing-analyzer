@@ -38,11 +38,11 @@ This project was developed as part of academic coursework in computer vision, wi
 
 ### Prerequisites
 
-- Python 3.9 or higher
+- Python 3.9 or higher. Python3.11 is best!
 - Webcam or video files of golf swings
 - Recommended: 60fps video for best results
 
-### Installation
+### Installation (Mac specific)
 
 1. **Clone the repository**
    ```bash
@@ -52,12 +52,13 @@ This project was developed as part of academic coursework in computer vision, wi
 
 2. **Create a virtual environment**
    ```bash
-   python -m venv venv
+   python3.11 -m venv venv
    source venv/bin/activate  # On Windows: venv\Scripts\activate
    ```
 
 3. **Install dependencies**
    ```bash
+   pip install --upgrade pip setuptools wheel
    pip install -r requirements.txt
    ```
 
