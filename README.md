@@ -11,10 +11,12 @@ An AI-powered computer vision system that analyzes golf swing mechanics to preve
 **Project Lead:** Tim Yarosh - Single Digit Handicap Golfer & Domain Expert
 
 **Core Contributors:**
+
+- Tim Yarosh
 - Roy Kim
 - Victor Ho
 
-*This is a collaborative student project for CIS5810 - Computer Vision and Computational Photography at The University of Pennsylvania*
+_This is a collaborative student project for CIS5810 - Computer Vision and Computational Photography at The University of Pennsylvania_
 
 ## 🎯 Project Overview
 
@@ -45,18 +47,21 @@ This project was developed as part of academic coursework in computer vision, wi
 ### Installation (Mac specific)
 
 1. **Clone the repository**
+
    ```bash
    git clone https://github.com/yourusername/golf-swing-analyzer.git
    cd golf-swing-analyzer
    ```
 
 2. **Create a virtual environment**
+
    ```bash
    python3.11 -m venv venv
    source venv/bin/activate  # On Windows: venv\Scripts\activate
    ```
 
 3. **Install dependencies**
+
    ```bash
    pip install --upgrade pip setuptools wheel
    pip install -r requirements.txt
@@ -70,16 +75,19 @@ This project was developed as part of academic coursework in computer vision, wi
 ### Running the Application
 
 **Web Interface (Recommended)**
+
 ```bash
 streamlit run app/streamlit_app.py
 ```
 
 **Command Line Interface**
+
 ```bash
 golf-analyzer --video path/to/swing.mp4 --output results/
 ```
 
 **Python API**
+
 ```python
 from src.pipeline import SwingAnalysisPipeline
 
@@ -117,12 +125,14 @@ golf-swing-analyzer/
 For optimal analysis results:
 
 **Camera Setup:**
+
 - Use **face-on view** (perpendicular to target line) for detecting early extension and weight shift
 - Alternatively, use **down-the-line view** (behind golfer) for swing plane analysis
 - Position camera 10-15 feet away to capture full body
 - Use tripod for stable footage
 
 **Video Settings:**
+
 - Minimum 30fps, recommended 60fps or higher
 - 1080p resolution or higher
 - Ensure entire body is in frame from address through finish
@@ -142,16 +152,19 @@ For optimal analysis results:
 ### Fault Detection Algorithms
 
 **Early Extension Analyzer**
+
 - Measures hip-to-ball distance at address vs. impact
 - Calculates spine angle maintenance through impact
 - Detects forward hip movement exceeding thresholds
 
 **Reverse Pivot Analyzer**
+
 - Tracks weight shift during backswing
 - Monitors hip center of mass lateral movement
 - Validates proper loading onto trail side
 
 **Over-the-Top Analyzer**
+
 - Analyzes shoulder plane angle at top of backswing
 - Tracks hand path during transition and downswing
 - Compares to proper "slot" position
@@ -159,15 +172,17 @@ For optimal analysis results:
 ## 📊 Performance Metrics
 
 Current system performance (based on testing):
-- **Pose Detection Accuracy**: 95%+ under good lighting
-- **Phase Segmentation Accuracy**: 90%+
-- **Fault Detection Accuracy**: 75-85% per fault type
-- **Processing Time**: 20-40 seconds per swing video
-- **False Positive Rate**: <20%
+
+- **Pose Detection Accuracy**: _Coming soon_
+- **Phase Segmentation Accuracy**: _Coming soon_
+- **Fault Detection Accuracy**: _Coming soon_
+- **Processing Time**: _Coming soon_
+- **False Positive Rate**: _Coming soon_
 
 ## 🧪 Testing
 
 Run the test suite:
+
 ```bash
 # Run all tests
 pytest tests/
@@ -182,39 +197,27 @@ pytest tests/test_analyzers.py
 ## 🛠️ Development
 
 **Code Formatting**
+
 ```bash
 black src/ app/ tests/
 ```
 
 **Linting**
+
 ```bash
 flake8 src/ app/ tests/
 ```
 
 **Type Checking**
+
 ```bash
 mypy src/
 ```
 
-### Team Workflow
-
-**Weekly Sprint Cycle:**
-1. **Monday**: Sprint planning, task assignment via GitHub Projects
-2. **Wednesday**: Mid-sprint check-in, blocker discussion
-3. **Friday**: Code review session, merge to develop
-4. **Sunday**: Integration testing, prepare for next sprint
-
 **Communication Channels:**
-- 💬 **Discord/Slack**: Daily updates and quick questions
-- 📋 **GitHub Issues**: Bug reports and feature requests
-- 📊 **GitHub Projects**: Sprint planning and task tracking
-- 🎥 **Weekly Meetings**: Video call for coordination
 
-**Task Assignment:**
-- Use GitHub Issues with labels: `good-first-issue`, `priority`, `blocked`
-- Assign yourself to issues you're working on
-- Update issue status as you progress
-- Link PRs to issues using keywords: `Closes #123`
+- 💬 **Slack**: Daily updates and quick questions
+- 🎥 **Weekly Meetings**: Video call for coordination
 
 ### Pre-commit Hooks (Recommended)
 
@@ -249,6 +252,7 @@ Planned features for post-course development:
 We use a **branch-based workflow** for team collaboration:
 
 1. **Create a feature branch** from `develop`
+
    ```bash
    git checkout develop
    git pull origin develop
@@ -256,18 +260,21 @@ We use a **branch-based workflow** for team collaboration:
    ```
 
 2. **Make your changes** and commit frequently
+
    ```bash
    git add .
    git commit -m "feat: descriptive message following conventional commits"
    ```
 
 3. **Keep your branch updated**
+
    ```bash
    git fetch origin
    git rebase origin/develop
    ```
 
 4. **Push and create Pull Request**
+
    ```bash
    git push origin feature/your-feature-name
    # Open PR on GitHub: feature/your-feature-name → develop
@@ -279,6 +286,7 @@ We use a **branch-based workflow** for team collaboration:
    - Once approved, squash and merge
 
 **Branch Naming Convention:**
+
 - `feature/` - New features (e.g., `feature/reverse-pivot-analyzer`)
 - `fix/` - Bug fixes (e.g., `fix/pose-detection-crash`)
 - `docs/` - Documentation updates
@@ -286,6 +294,7 @@ We use a **branch-based workflow** for team collaboration:
 - `refactor/` - Code refactoring
 
 **Commit Message Format:**
+
 ```
 type(scope): subject
 
@@ -319,6 +328,7 @@ After course completion, external contributions are welcome:
 ## 📚 Documentation
 
 For detailed documentation, see:
+
 - [API Reference](docs/api.md)
 - [Algorithm Details](docs/algorithms.md)
 - [Configuration Guide](docs/configuration.md)
@@ -340,9 +350,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - **Course Instructors**: Professor Shi for guidance and feedback
 - **Teaching Assistants**: for technical support
 - **Penn Club Golf(PCG) Community**: League members who provided test footage and feedback
-- **MediaPipe Team**: For the robust pose estimation framework
-- **OpenCV Community**: For comprehensive video processing tools
-- **Open-source Contributors**: For the tools and libraries that made this possible
 
 ## 📧 Contact
 
@@ -370,9 +377,10 @@ If you use this project in your research, teaching, or other projects, please ci
 **Course**: CIS5810 - Computer Vision and Computational Photography  
 **Institution**: University of Pennsylvania
 **Semester**: Fall/2025
-**Instructors**: Professor Shi  
+**Instructors**: Professor Shi
 
 **Project Objectives Met:**
+
 - ✅ Applied computer vision techniques to real-world problems
 - ✅ Developed end-to-end working prototype
 - ✅ Critical analysis of existing CV algorithms and APIs
