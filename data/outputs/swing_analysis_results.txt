@@ -1,0 +1,13 @@
+=== Swing Analysis Results ===
+Video: ../../data/reference_swings/swing.mp4
+Frames: 313 | FPS: 60.00
+Swing start: 194 | Swing end: 233
+Parameters: smoothing=5, percentile=90.0, precheck=30, vis_thresh=0.4
+
+Phase Breakdown:
+Address         :   179 -   194 (len   15)
+Backswing       :   194 -   206 (len   12)
+Top             :   206 -   216 (len   10)
+Downswing       :   216 -   232 (len   16)
+Impact          :   232 -   233 (len    1)
+Follow Through  :   233 -   233 (len    0)
