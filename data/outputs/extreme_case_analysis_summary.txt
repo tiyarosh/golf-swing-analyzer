@@ -1,0 +1,19 @@
+============================================================
+OVER-THE-TOP (OTT) ANALYSIS REPORT
+============================================================
+
+📊 HAND PATH ANALYSIS
+  OTT Score: 4.6/10
+  Direction: Outward
+  Lateral Movement: 56.4 pixels
+  Confidence: 80%
+
+  Assessment: Moderate - Noticeable OTT pattern
+
+ SHOULDER ROTATION ANALYSIS
+  Rotation Score: 3.9/10
+  Rotation Rate: 1.97°/frame
+  Early Rotation: No
+  Confidence: 100%
+
+============================================================

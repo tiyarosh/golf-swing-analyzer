@@ -1,6 +1,22 @@
 """
 Over the Top Analyzer (OTT) Module
-...docstring...
+
+This module provides functions to analyze golf swing data for "over-the-top" (OTT) swing characteristics.
+It includes methods to extract hand path coordinates, analyze lateral hand movement for OTT tendencies,
+evaluate shoulder rotation patterns, and generate human-readable reports summarizing OTT analysis.
+Functions:
+    - extract_hand_path(xs, ys, phase_ranges, phases_to_track): 
+        Extracts and processes hand path coordinates during specified swing phases, interpolating and smoothing data as needed.
+    - analyze_ott_deviation(hand_path, video_width, golfer_side):
+        Analyzes the hand path for OTT characteristics by quantifying lateral movement and direction, returning a severity score and confidence.
+    - analyze_shoulder_rotation(shoulder_data, video_width):
+        Evaluates shoulder rotation patterns for OTT indicators, such as early or excessive rotation, and returns rotation metrics and confidence.
+    - generate_ott_report(hand_analysis, shoulder_analysis):
+        Generates a formatted, human-readable report summarizing the OTT analysis results for both hand path and shoulder rotation.
+Dependencies:
+    - numpy
+    - typing
+    - signal processing utilities: moving_average, interpolate_nans
 """
 
 # Imports
