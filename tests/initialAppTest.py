@@ -69,7 +69,7 @@ class TestRefactoringValidation:
         """Initialize test with paths and configuration."""
         # Paths
         self.project_root = Path(__file__).parent.parent
-        self.video_path = self.project_root / "data" / "reference_swings" / "swing.mp4" # Modify as needed to test different videos
+        self.video_path = self.project_root / "data" / "reference_swings" / "IMG_2118.mp4" # Modify as needed to test different videos
         #self.notebook_path = self.project_root / "SwingPhase_Identifyer.ipynb"
         self.output_dir = self.project_root / "data" / "outputs"
         
