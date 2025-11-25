@@ -24,6 +24,15 @@ import numpy as np
 from typing import Dict, List, Tuple
 from ..utils.signal_processing import moving_average, interpolate_nans
 
+# Benchmark constants (based on typical golf instruction standards)
+BENCHMARKS = {
+    "optimal_path_degrees": (-4, 4),  # Optimal swing path: slight in-to-out to square
+    "tour_avg_path": 1.5,  # Tour average: 1-2° in-to-out
+    "optimal_rotation_rate": (1.0, 2.5),  # Degrees per frame
+    "tour_avg_rotation_rate": 1.8,
+    "severe_ott_threshold": 5.0,  # 5°+ out-to-in is severe OTT
+}
+
 def extract_hand_path(xs: np.ndarray, ys: np.ndarray, 
                       phase_ranges: dict, 
                       phases_to_track: list = ["Top", "Downswing", "Impact"]):
@@ -97,11 +106,13 @@ def analyze_ott_deviation(hand_path: dict,
     
     if len(xs) < 3:
         return {
-            "ott_score": 0.0,
-            "lateral_movement": 0.0,
-            "movement_direction": "insufficient_data",
-            "confidence": 0.0,
-            "details": {}
+            "swing_path_degrees": 0.0,
+            "swing_path_description": "Insufficient data",
+            "lateral_movement_percent": 0.0,
+            "vs_tour_average": 0.0,
+            "severity_level": "Unable to analyze",
+            "data_quality": "Poor - insufficient frames",
+            "details": {"frames_analyzed": len(xs)}
         }
     
     # Normalize X to 0-1 scale
@@ -119,6 +130,9 @@ def analyze_ott_deviation(hand_path: dict,
     
     # Lateral shift
     lateral_shift = impact_x - top_x
+    lateral_percent = lateral_shift * 100
+
+    PIXELS_TO_DEGREES_FACTOR = 1.8
     
     # Direction depends on golfer handedness and camera angle
     # Assuming face-on view with golfer on right side of frame:
@@ -131,54 +145,72 @@ def analyze_ott_deviation(hand_path: dict,
     # Positive shift = moving away from target (good)
     
     if golfer_side == "right":
-        # More negative = more OTT
-        if lateral_shift < -0.05:  # Significant outward movement
-            ott_indicator = abs(lateral_shift)
-            direction = "outward"
-        elif lateral_shift < 0:
-            ott_indicator = abs(lateral_shift) * 0.5
-            direction = "slight_outward"
-        else:
-            ott_indicator = 0.0
-            direction = "inward"
+        # Right-handed golfer facing right side of frame:
+        # Moving left (negative shift) = out-to-in (OTT)
+        # Moving right (positive shift) = in-to-out (good)
+        swing_path_degrees = -lateral_percent * PIXELS_TO_DEGREES_FACTOR
     else:  # left-handed
         # Opposite for lefties
-        if lateral_shift > 0.05:
-            ott_indicator = abs(lateral_shift)
-            direction = "outward"
-        elif lateral_shift > 0:
-            ott_indicator = abs(lateral_shift) * 0.5
-            direction = "slight_outward"
-        else:
-            ott_indicator = 0.0
-            direction = "inward"
+        swing_path_degrees = lateral_percent * PIXELS_TO_DEGREES_FACTOR
     
-    # Convert to 0-10 score
-    # Typical OTT might move 5-15% of frame width
-    ott_score = min(10.0, ott_indicator * 50)  # Scale to 0-10
+    # Generate standard golf terminology description
+    abs_degrees = abs(swing_path_degrees)
+    if swing_path_degrees < -1.0:
+        path_description = f"{abs_degrees:.1f}° out-to-in"
+    elif swing_path_degrees > 1.0:
+        path_description = f"{abs_degrees:.1f}° in-to-out"
+    else:
+        path_description = f"{abs_degrees:.1f}° (nearly square)"
     
-    # Calculate confidence based on data quality
-    # More frames = higher confidence
-    # Less variance = higher confidence
-    confidence = min(1.0, len(xs) / 30.0)  # Max confidence at 30+ frames
-    variance_penalty = min(0.5, np.std(xs_norm) * 2)
-    confidence = max(0.1, confidence - variance_penalty)
+    # Compare to tour average
+    vs_tour = swing_path_degrees - BENCHMARKS["tour_avg_path"]
     
-    # Additional metrics
+    # Determine severity level with clear descriptions
+    if swing_path_degrees >= BENCHMARKS["optimal_path_degrees"][0] and \
+       swing_path_degrees <= BENCHMARKS["optimal_path_degrees"][1]:
+        severity = "Optimal - Excellent swing path"
+    elif swing_path_degrees > -5.0 and swing_path_degrees < BENCHMARKS["optimal_path_degrees"][0]:
+        severity = "Mild OTT - Slight out-to-in path"
+    elif swing_path_degrees <= -BENCHMARKS["severe_ott_threshold"]:
+        severity = "Severe OTT - Significant out-to-in path"
+    elif swing_path_degrees < -5.0:
+        severity = "Moderate OTT - Noticeable out-to-in path"
+    elif swing_path_degrees > BENCHMARKS["optimal_path_degrees"][1]:
+        severity = "Strong in-to-out path (may cause hooks)"
+    else:
+        severity = "Good - Within acceptable range"
+    
+    # Calculate data quality based on frames and consistency
+    frames_quality = min(100, (len(xs) / 30.0) * 100)  # 30+ frames = 100%
+    consistency = 100 - min(100, np.std(xs_norm) * 200)  # Lower variance = better
+    overall_quality = (frames_quality * 0.7 + consistency * 0.3)
+    
+    if overall_quality >= 80:
+        quality_desc = f"Excellent ({len(xs)} frames analyzed)"
+    elif overall_quality >= 60:
+        quality_desc = f"Good ({len(xs)} frames analyzed)"
+    elif overall_quality >= 40:
+        quality_desc = f"Fair ({len(xs)} frames, some inconsistency)"
+    else:
+        quality_desc = f"Poor ({len(xs)} frames, high variance)"
+    
+    # Additional metrics for debugging/advanced users
     details = {
         "top_x_position": float(top_x),
         "impact_x_position": float(impact_x),
-        "lateral_shift_pixels": float(lateral_shift * video_width),
-        "lateral_shift_normalized": float(lateral_shift),
+        "lateral_shift_percent": float(lateral_percent),
         "path_variance": float(np.std(xs_norm)),
-        "frames_analyzed": len(xs)
+        "frames_analyzed": len(xs),
+        "quality_score": float(overall_quality)
     }
     
     return {
-        "ott_score": float(ott_score),
-        "lateral_movement": float(abs(lateral_shift * video_width)),
-        "movement_direction": direction,
-        "confidence": float(confidence),
+        "swing_path_degrees": float(swing_path_degrees),
+        "swing_path_description": path_description,
+        "lateral_movement_percent": float(abs(lateral_percent)),
+        "vs_tour_average": float(vs_tour),
+        "severity_level": severity,
+        "data_quality": quality_desc,
         "details": details
     }
 
