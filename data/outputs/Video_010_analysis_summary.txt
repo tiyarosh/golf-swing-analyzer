@@ -1,17 +1,32 @@
-============================================================
+======================================================================
 OVER-THE-TOP (OTT) ANALYSIS REPORT
-============================================================
+======================================================================
 
-📊 HAND PATH ANALYSIS
-  OTT Score: 7.0/10
-  Confidence: 64%
+ SWING PATH ANALYSIS
+  Swing Path: 0.5° (nearly square)
+  Severity: Optimal - Excellent swing path
+  vs Tour Average: -2.0° (more out-to-in)
+  Data Quality: Excellent (36 frames analyzed)
 
-  Assessment: Significant - Strong OTT tendency
+ INTERPRETATION GUIDE:
+  • IN-TO-OUT path (positive °): Promotes draws, good for power
+  • OUT-TO-IN path (negative °): OTT tendency, promotes slices
+  • Optimal range: -2° to +2° (square to slight in-to-out)
+  • Tour average: ~1.5° in-to-out
+
+ EXCELLENT:
+  Your swing path is in the optimal range. Maintain this!
 
  SHOULDER ROTATION ANALYSIS
-  Rotation Score: 4.3/10
-  Rotation Rate: 2.16°/frame
-  Early Rotation: Yes
-  Confidence: 100%
+  Rotation Rate: 1.65°/frame
+  Assessment: Optimal - Smooth rotation rate
+  Within optimal range (1.0-2.5°/frame)
+  Early Rotation: ✅ No
+  Data Quality: Excellent (36 frames)
 
-============================================================
+ ROTATION CONTEXT:
+  • Optimal: 1.0-2.5°/frame for smooth, powerful rotation
+  • Too fast (>3.0°/frame): Often indicates OTT or early extension
+  • Too slow (<1.0°/frame): May indicate restricted turn
+
+======================================================================

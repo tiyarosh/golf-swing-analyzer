@@ -83,10 +83,10 @@ def analyze_ott_deviation(hand_path: dict,
                           video_width: int,
                           golfer_side: str = "right"):
     """
-    Analyze hand path for over-the-top characteristics.
+    Analyze hand path for over-the-top characteristics using standard golf metrics.
     
-    Key insight: OTT means hands move OUTWARD toward target line
-    during downswing instead of dropping "into the slot".
+    Key insight: OTT means hands move on an OUT-TO-IN path (across the target line)
+    instead of dropping "into the slot" on an IN-TO-OUT or neutral path.
     
     Args:
         hand_path: dict from extract_hand_path()
@@ -95,11 +95,13 @@ def analyze_ott_deviation(hand_path: dict,
         
     Returns:
         dict with:
-            - ott_score: 0-10 (0=perfect, 10=severe OTT)
-            - lateral_movement: total lateral shift in pixels
-            - movement_direction: "outward" or "inward"
-            - confidence: 0-1
-            - details: additional metrics
+            - swing_path_degrees: Actual swing path in degrees (+ = in-to-out, - = out-to-in)
+            - swing_path_description: Standard golf terminology
+            - lateral_movement_percent: Movement as % of frame width
+            - vs_tour_average: Comparison to tour average
+            - severity_level: Clear assessment (optimal/mild/moderate/severe)
+            - data_quality: Quality of the analysis (excellent/good/fair/poor)
+            - details: Additional metrics for debugging
     """
     xs = hand_path["xs"]
     ys = hand_path["ys"]
@@ -115,7 +117,7 @@ def analyze_ott_deviation(hand_path: dict,
             "data_quality": "Poor - insufficient frames",
             "details": {"frames_analyzed": len(xs)}
         }
-    """
+    
     # Normalize X to 0-1 scale
     xs_norm = xs / video_width
     
@@ -287,6 +289,7 @@ def analyze_ott_deviation(hand_path: dict,
         "confidence": float(confidence),
         "details": details
     }
+    """
 
 def analyze_shoulder_rotation(shoulder_data: dict, video_width: int):
     """
