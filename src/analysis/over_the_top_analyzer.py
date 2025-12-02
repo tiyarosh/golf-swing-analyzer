@@ -23,6 +23,7 @@ Dependencies:
 import numpy as np
 from typing import Dict, List, Tuple
 from ..utils.signal_processing import moving_average, interpolate_nans
+from scipy.stats import linregress
 
 # Benchmark constants (based on typical golf instruction standards)
 BENCHMARKS = {
@@ -114,7 +115,7 @@ def analyze_ott_deviation(hand_path: dict,
             "data_quality": "Poor - insufficient frames",
             "details": {"frames_analyzed": len(xs)}
         }
-    
+    """
     # Normalize X to 0-1 scale
     xs_norm = xs / video_width
     
@@ -211,6 +212,79 @@ def analyze_ott_deviation(hand_path: dict,
         "vs_tour_average": float(vs_tour),
         "severity_level": severity,
         "data_quality": quality_desc,
+        "details": details
+    }
+    """
+
+    # Normalize X to 0-1 scale
+    xs_norm = xs / video_width
+    
+    # Normalize Y
+    ys_norm = ys / max(ys)  
+
+    # Calculate movement of backswing, early downswing and late downswing
+    n = len(xs_norm)
+    top_idx = max(1, np.argmax(ys_norm[:n//2]))
+    impact_idx = len(xs_norm) - 1
+    p6_idx = top_idx + int(0.7 * (impact_idx - top_idx))
+    p6_idx = min(max(p6_idx, top_idx+1), impact_idx-1)
+
+    backswing_x = xs_norm[:top_idx]
+    backswing_y = ys_norm[:top_idx]
+
+    early_downswing_x = xs_norm[top_idx:p6_idx]
+    early_downswing_y = ys_norm[top_idx:p6_idx]
+
+    late_downswing_x = xs_norm[p6_idx:impact_idx]
+    late_downswing_y = ys_norm[p6_idx:impact_idx]
+
+    # Calculate ott score based on backswing, early downswing and late downswin movements
+    backswing_slope = 1 if len(backswing_y) == len(backswing_x) == 1 else linregress(backswing_y, backswing_x).slope 
+    early_downswing_slope = 1 if len(early_downswing_y) == len(early_downswing_x) == 1 else linregress(early_downswing_y, early_downswing_x).slope
+    late_downswing_slope = 1 if len(late_downswing_y) == len(late_downswing_x) == 1 else linregress(late_downswing_y, late_downswing_x).slope
+
+    plane_deviation = late_downswing_slope - backswing_slope
+    
+    sign = -1 if golfer_side == "right" else 1
+
+    early_downswing_score = np.clip(sign * early_downswing_slope * 10, 0, 5.5)
+    late_downswing_score = np.clip(sign * late_downswing_slope * 10, 0, 3)
+    plane_deviation_score = np.clip(sign * plane_deviation * 10, 0, 1.5)
+    ott_score = early_downswing_score + late_downswing_score + plane_deviation_score
+
+    # Calculate confidence
+    variance = (np.std(xs_norm) + np.std(ys_norm)) / 2
+    smoothness_penalty = np.clip(variance * 0.25, 0, 0.25)
+
+    slope_diff = abs(early_downswing_slope - late_downswing_slope)
+    slope_penalty = np.clip(slope_diff * 0.05, 0, 0.25)
+
+    frame_bonus = np.clip(len(xs) / 30, 0, 1)
+
+    confidence = (0.5 - smoothness_penalty - slope_penalty) * (1 + frame_bonus)
+    confidence = np.clip(confidence, 0.1, 1.0)
+        
+    details = {
+        "backswing_x_positions": backswing_x,
+        "backswing_y_positions": backswing_y,
+        "backswing_slope": float(backswing_slope),
+        "early_downswing_x_positions": early_downswing_x,
+        "early_downswing_y_positions": early_downswing_y,
+        "early_downswing_slope": float(early_downswing_slope),
+        "late_downswing_x_positions": late_downswing_x,
+        "late_downswing_y_positions": late_downswing_y,
+        "late_downswing_slope": float(late_downswing_slope),
+        "plane_deviation": float(plane_deviation),
+        "early_downswing_score": float(early_downswing_score),
+        "late_downswing_score": float(late_downswing_score),
+        "plane_deviation_score": float(plane_deviation_score),
+        "path_variance": float(variance),
+        "frames_analyzed": len(xs)
+    }
+
+    return {
+        "ott_score": float(ott_score),
+        "confidence": float(confidence),
         "details": details
     }
 
