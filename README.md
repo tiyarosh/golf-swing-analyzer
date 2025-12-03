@@ -1,6 +1,6 @@
 # 🏌️ Golf Swing Analyzer
 
-An AI-powered computer vision system that analyzes golf swing mechanics to prevent injuries and improve performance. This system provides real-time feedback on swing sequencing, identifying common faults that can lead to joint damage, chronic pain, and diminished athletic ability.
+An AI-powered computer vision system that analyzes golf swing mechanics to prevent injuries and improve performance. This system provides real-time feedback on swing sequencing, identifying the most common fault(s) that can lead to joint damage, chronic pain, and diminished athletic ability.
 
 [![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -20,10 +20,8 @@ _This is a collaborative student project for CIS5810 - Computer Vision and Compu
 
 ## 🎯 Project Overview
 
-This project was developed as part of academic coursework in computer vision, with the goal of creating a practical tool that helps golfers maintain proper form and technique. The system focuses on detecting three critical swing faults:
+This project was developed as part of academic coursework in computer vision, with the goal of creating a practical tool that helps golfers maintain proper form and technique. The system focuses on detecting the most common swing fault in golf:
 
-- **Early Extension**: Hips moving toward the ball during impact
-- **Reverse Pivot**: Incorrect weight shift during backswing
 - **Over-the-Top**: Outside-in swing path that causes slices
 
 ## ✨ Features
@@ -33,52 +31,50 @@ This project was developed as part of academic coursework in computer vision, wi
 - 📊 **Multi-Fault Detection**: Identifies three common swing faults simultaneously
 - 📈 **Visual Feedback**: Annotated videos with skeleton overlay and measurements
 - 📋 **Detailed Reports**: Comprehensive analysis with scores and recommendations
-- 🖥️ **User-Friendly Interface**: Web-based UI built with Streamlit
-- 🔄 **Batch Processing**: Analyze multiple swings for progress tracking
+- 🖥️ **User-Friendly Interface**: Web-based UI built with Streamlit (_Coming Soon_)
+- 🔄 **Batch Processing**: Analyze multiple swings for progress tracking (_Coming Soon_)
 
 ## 🚀 Quick Start
 
 ### Prerequisites
 
-- Python 3.9 or higher. Python3.11 is best!
+- Python 3.9 or higher.
 - Webcam or video files of golf swings
 - Recommended: 60fps video for best results
 
-### Installation (Mac specific)
+### Getting Started (Mac specific)
 
-1. **Clone the repository**
+1. **Fork and clone the repository**
 
-   ```bash
-   git clone https://github.com/yourusername/golf-swing-analyzer.git
+   - Fork this repository by clicking the "Fork" button at the top right of this page
+   - Clone your forked repository:
+
+```bash
+   git clone https://github.com/YOUR-USERNAME/golf-swing-analyzer.git
    cd golf-swing-analyzer
-   ```
+```
 
 2. **Create a virtual environment**
 
-   ```bash
+```bash
    python3.11 -m venv venv
    source venv/bin/activate  # On Windows: venv\Scripts\activate
-   ```
+```
 
 3. **Install dependencies**
 
-   ```bash
+```bash
    pip install --upgrade pip setuptools wheel
    pip install -r requirements.txt
-   ```
+```
 
 4. **Install the package**
-   ```bash
-   pip install -e .
-   ```
-
-### Running the Application
-
-**Web Interface (Recommended)**
 
 ```bash
-streamlit run app/streamlit_app.py
+   pip install -e .
 ```
+
+### Running the Application
 
 **Command Line Interface**
 
@@ -86,38 +82,38 @@ streamlit run app/streamlit_app.py
 golf-analyzer --video path/to/swing.mp4 --output results/
 ```
 
-**Python API**
-
-```python
-from src.pipeline import SwingAnalysisPipeline
-
-pipeline = SwingAnalysisPipeline()
-result = pipeline.analyze_video("swing.mp4", output_dir="results/")
-
-print(f"Early Extension Score: {result.early_extension.score}")
-print(f"Recommendation: {result.early_extension.recommendation}")
-```
-
 ## 📁 Project Structure
 
 ```
 golf-swing-analyzer/
-├── src/
-│   ├── core/              # Core processing (video, pose estimation, segmentation)
-│   ├── analysis/          # Fault detection algorithms
-│   ├── models/            # Data structures and models
-│   ├── visualization/     # Video overlay and report generation
-│   ├── utils/             # Utility functions
-│   └── config/            # Configuration and thresholds
-├── app/
-│   ├── streamlit_app.py   # Web interface
-│   └── cli.py             # Command-line tool
-├── tests/                 # Unit and integration tests
-├── data/                  # Sample data and outputs
-├── notebooks/             # Jupyter notebooks for exploration
-├── requirements.txt       # Python dependencies
-├── setup.py              # Package setup
-└── README.md             # This file
+├── app
+│   └── __init__.py
+├── COLLABORATION.md
+├── data                   # Data directory for storing videos and outputs
+│   ├── outputs
+│   ├── reference_swings
+│   └── test_swings
+├── docs                   # Documentation files
+│   ├── meeting-notes
+│   ├── presentations
+│   └── progress-reports
+├── LICENSE
+├── notebooks
+├── README.md
+├── requirements.txt       # Project dependencies
+├── setup.py               # Package setup file
+├── src
+│   ├── __init__.py
+│   ├── __pycache__
+│   ├── analysis           # Fault detection algorithms
+│   ├── config             # Configuration files and thresholds
+│   ├── core               # Core processing (video, pose estimation, segmentation)
+│   ├── models             # ML models (if any)
+│   ├── utils              # Utility functions
+│   └── visualization      # Video annotation and report generation
+└── tests                  # Test suite
+    ├── __init__.py
+    └── initialAppTest.py
 ```
 
 ## 🎥 Video Recording Best Practices
@@ -151,18 +147,6 @@ For optimal analysis results:
 
 ### Fault Detection Algorithms
 
-**Early Extension Analyzer**
-
-- Measures hip-to-ball distance at address vs. impact
-- Calculates spine angle maintenance through impact
-- Detects forward hip movement exceeding thresholds
-
-**Reverse Pivot Analyzer**
-
-- Tracks weight shift during backswing
-- Monitors hip center of mass lateral movement
-- Validates proper loading onto trail side
-
 **Over-the-Top Analyzer**
 
 - Analyzes shoulder plane angle at top of backswing
@@ -173,11 +157,10 @@ For optimal analysis results:
 
 Current system performance (based on testing):
 
-- **Pose Detection Accuracy**: _Coming soon_
-- **Phase Segmentation Accuracy**: _Coming soon_
-- **Fault Detection Accuracy**: _Coming soon_
-- **Processing Time**: _Coming soon_
-- **False Positive Rate**: _Coming soon_
+- swing_path_degrees: Actual measurement in degrees
+- swing_path_description: Standard golf terminology
+- vs_tour_average: Comparison to tour professionals
+- severity_level: Clear assessment category
 
 ## 🧪 Testing
 
@@ -185,13 +168,7 @@ Run the test suite:
 
 ```bash
 # Run all tests
-pytest tests/
-
-# Run with coverage
-pytest --cov=src tests/
-
-# Run specific test file
-pytest tests/test_analyzers.py
+python tests/initialAppTest.py
 ```
 
 ## 🛠️ Development
@@ -234,16 +211,16 @@ This will automatically run linters and formatters before each commit.
 
 Planned features for post-course development:
 
-- [ ] Real-time webcam analysis
-- [ ] Multi-angle video fusion
-- [ ] Machine learning-based anomaly detection
-- [ ] Mobile app (iOS/Android)
-- [ ] Cloud storage and swing library
-- [ ] Progress tracking over time
-- [ ] Integration with launch monitor data
-- [ ] Custom drill recommendations
-- [ ] Comparison with PGA Tour pros
-- [ ] Multiplayer comparison mode
+- [] Web GUI or mobile based application
+- [] Percentile Rankings
+- [] Drill Library
+- [] Visual Overlays
+- [] Club-Specific Analysis
+- [] Comparison Mode
+- [] Export Reports
+- [] Interactive Mode
+- [] Robust Cloud Storage
+- [] Launch monitor software integration
 
 ## 🤝 Contributing
 
@@ -325,15 +302,6 @@ After course completion, external contributions are welcome:
 - **Keep PRs focused** - one feature/fix per PR
 - **Communicate early** - open draft PRs to discuss approach
 
-## 📚 Documentation
-
-For detailed documentation, see:
-
-- [API Reference](docs/api.md)
-- [Algorithm Details](docs/algorithms.md)
-- [Configuration Guide](docs/configuration.md)
-- [Troubleshooting](docs/troubleshooting.md)
-
 ## 🐛 Known Issues
 
 - Pose detection may fail in low-light conditions
@@ -379,12 +347,12 @@ If you use this project in your research, teaching, or other projects, please ci
 **Semester**: Fall/2025
 **Instructors**: Professor Shi
 
-**Project Objectives Met:**
+**Project Objectives:**
 
-- ✅ Applied computer vision techniques to real-world problems
-- ✅ Developed end-to-end working prototype
-- ✅ Critical analysis of existing CV algorithms and APIs
-- ✅ Comprehensive documentation and presentation
-- ✅ Collaborative software development experience
+- [] Apply computer vision techniques to real-world problems
+- [] Develop end-to-end working prototype
+- [] Develop Critical analysis of existing CV algorithms and APIs
+- [] Design Comprehensive documentation and presentation
+- [] Collaborative software development experience
 
 ---
