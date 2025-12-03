@@ -211,16 +211,16 @@ This will automatically run linters and formatters before each commit.
 
 Planned features for post-course development:
 
-- [] Web GUI or mobile based application
-- [] Percentile Rankings
-- [] Drill Library
-- [] Visual Overlays
-- [] Club-Specific Analysis
-- [] Comparison Mode
-- [] Export Reports
-- [] Interactive Mode
-- [] Robust Cloud Storage
-- [] Launch monitor software integration
+- Web GUI or mobile based application
+- Percentile Rankings
+- Drill Library
+- Visual Overlays
+- Club-Specific Analysis
+- Comparison Mode
+- Export Reports
+- Interactive Mode
+- Robust Cloud Storage
+- Launch monitor software integration
 
 ## 🤝 Contributing
 
@@ -317,7 +317,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 - **Course Instructors**: Professor Shi for guidance and feedback
 - **Teaching Assistants**: for technical support
-- **Penn Club Golf(PCG) Community**: League members who provided test footage and feedback
 
 ## 📧 Contact
 
@@ -342,17 +341,17 @@ If you use this project in your research, teaching, or other projects, please ci
 
 ## 📚 Academic Context
 
-**Course**: CIS5810 - Computer Vision and Computational Photography  
-**Institution**: University of Pennsylvania
-**Semester**: Fall/2025
+**Course**: CIS5810 - Computer Vision and Computational Photography \
+**Institution**: University of Pennsylvania \
+**Semester**: Fall/2025 \
 **Instructors**: Professor Shi
 
 **Project Objectives:**
 
-- [] Apply computer vision techniques to real-world problems
-- [] Develop end-to-end working prototype
-- [] Develop Critical analysis of existing CV algorithms and APIs
-- [] Design Comprehensive documentation and presentation
-- [] Collaborative software development experience
+- Apply computer vision techniques to real-world problems
+- Develop end-to-end working prototype
+- Develop Critical analysis of existing CV algorithms and APIs
+- Design Comprehensive documentation and presentation
+- Collaborative software development experience
 
 ---
